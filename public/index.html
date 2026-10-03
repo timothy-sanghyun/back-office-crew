@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seoul Taco · Back-Office Crew</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">ST</div>
+      <div>
+        <div class="brand-name">Seoul Taco Co.</div>
+        <div class="brand-sub">Back-Office Crew · food-cost defense</div>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="owner" role="tab">Owner</button>
+      <button class="tab" data-view="kitchen" role="tab">Kitchen</button>
+    </nav>
+    <div class="pills" id="pills"></div>
+    <button class="ghost" id="resetBtn" title="Reset sample data">Reset</button>
+  </header>
+
+  <main id="owner" class="view">
+    <section class="kpis" id="kpis"></section>
+    <section class="powered" id="powered"></section>
+
+    <section class="grid">
+      <div class="col-left">
+        <div class="card trigger">
+          <div class="card-h"><h2>Supplier price sheet</h2><span class="tag">trigger</span></div>
+          <p class="muted">A supplier updates a price. The crew verifies it, sizes the damage, runs an RFQ, fixes the menu and asks you to approve — in one room.</p>
+          <div class="trigger-row">
+            <label>Ingredient
+              <select id="ingSel"></select>
+            </label>
+            <label>New price / case
+              <div class="price-in"><span>$</span><input id="priceIn" type="number" step="0.5" value="78" /></div>
+            </label>
+          </div>
+          <button class="primary" id="runBtn">Run Supply Run</button>
+          <ol class="stepper" id="stepper"></ol>
+        </div>
+
+        <div class="card hidden" id="evidence"></div>
+
+        <div class="card ask">
+          <div class="card-h"><h2>Ask the crew</h2><span class="tag tag-blue">what-if</span></div>
+          <form id="askForm" class="ask-row">
+            <input id="askIn" placeholder="What if avocado hits $90?" autocomplete="off" />
+            <button class="primary" id="askBtn" type="submit">Ask</button>
+          </form>
+          <div class="ask-chips">
+            <button type="button" class="chip" data-q="What if avocado hits $90?">Avocado $90?</button>
+            <button type="button" class="chip" data-q="What if galbi short rib goes to $175 a box?">Galbi $175?</button>
+            <button type="button" class="chip" data-q="Which dish is hurting my margin the most right now?">Worst margin?</button>
+          </div>
+          <div id="askOut"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><h2>Menu food cost</h2><span class="muted small" id="targetLbl"></span></div>
+          <table class="tbl" id="costTbl"></table>
+          <p class="foot muted small">Replacement cost at current supplier prices. Inventory already bought keeps its acquisition cost.</p>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <div class="card room">
+          <div class="card-h">
+            <h2>Agent room</h2>
+            <span class="muted small" id="roomMeta">idle</span>
+          </div>
+          <div class="feed" id="feed">
+            <div class="empty">The room opens when a price changes. Every message, tool call and approval is recorded here.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card decision hidden" id="decision"></section>
+  </main>
+
+  <main id="kitchen" class="view hidden">
+    <div class="kitchen-h">
+      <div>
+        <h1>Kitchen prep plan</h1>
+        <div class="muted" id="kitchenDate"></div>
+      </div>
+      <div class="muted small">Quantities come from the demand forecast × recipe BOM. Tap to update status.</div>
+    </div>
+    <div class="staff-grid" id="staffGrid"></div>
+  </main>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

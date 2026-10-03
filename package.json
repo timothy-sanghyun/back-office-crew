@@ -1,0 +1,17 @@
+{
+  "name": "restaurant-ops-agent",
+  "version": "0.1.0",
+  "description": "Seoul Taco Back-Office Crew — an AI crew that defends a restaurant's food-cost line. Built on ZooWork Managed Agents, Band, Tavily.",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "setup": "node scripts/setup-zoowork.mjs",
+    "test": "node --test test/*.test.mjs",
+    "demo": "node scripts/run-demo.mjs"
+  },
+  "optionalDependencies": {
+    "@zoowork-ai/sdk": "^0.10.2"
+  }
+}
