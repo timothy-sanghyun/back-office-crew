@@ -66,6 +66,14 @@ const server = http.createServer(async (req, res) => {
     }
     if (url.pathname === '/api/runs' && req.method === 'POST') {
       const body = await readBody(req);
+      // Each new run starts from fresh sample data, so every visitor sees the same scenario.
+      const prev = wf.active();
+      if (prev && !['running', 'executing'].includes(prev.status)) {
+        db = createDb();
+        wf = createWorkflow(db, { publicUrl: PUBLIC_URL, broadcast });
+        staffTasks = { date: db.today, ...assignTasks(db, buildPrepPlan(db, db.today).tasks) };
+        broadcast({ kind: 'reset' });
+      }
       return send(res, 202, await wf.start({ ingredient: body.ingredient || 'avocado', newPackPrice: Number(body.newPackPrice) || 78, supplierId: body.supplierId || 'bay_fresh' }));
     }
     if (url.pathname === '/api/ask' && req.method === 'POST') {
